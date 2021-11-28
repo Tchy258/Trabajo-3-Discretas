@@ -88,21 +88,22 @@ def BFS(cantidadDeOn,grafo,n,distancia,anterior):
     while not nodosAVisitar.estaVacio():
         #Mientras queden nodos por visitar
         u=nodosAVisitar.desencolar()
-        #Ver el nodo u que está al principio de la fila
-        for i in range(len(grafo.nodos[u].adyacencia)): #Para la lista de adyacencia de este nodo u
+        #Ver el nodo "u" que está al principio de la cola
+        for i in range(len(grafo.nodos[u].adyacencia)): #Para la lista de adyacencia de este nodo "u"
             if not visitado[grafo.nodos[u].adyacencia[i][0]]: #Si no se ha visitado el siguiente nodo
                 visitado[grafo.nodos[u].adyacencia[i][0]]=True #Ahora si se visitó
                 distancia[grafo.nodos[u].adyacencia[i][0]]=distancia[u]+1 
-                #La distancia a este vecino desde el nodo origen, es la distancia que llevaba hasta el nodo u + 1
+                #La distancia a este vecino desde el nodo origen, es la distancia que había desde el origen
+                #hasta el nodo "u" más 1
                 anterior[grafo.nodos[u].adyacencia[i][0]]=u
-                #Para llegar a este nodo de la lista de adyacencia de u, hay que pasar por u
+                #Para llegar a este nodo de la lista de adyacencia de "u", hay que pasar por "u"
                 nodosAVisitar.encolar(grafo.nodos[u].adyacencia[i][0])
                 #Se agrega el siguiente vecino de u a la cola de nodos por visitar
                 if (grafo.nodos[u].adyacencia[i][0]==0):
-                    #Si se llegó al nodo 0, ya se encontró la forma más corta de llegar
+                    #Si se llegó al nodo 0, ya se encontró la forma más corta de llegar a él
                     return
 
-#Distancia minima con pasos, encuentra la distancia minima según lo hecho en el algoritmo BFS y
+#distanciaMinimaConPasos, encuentra la distancia minima según lo hecho en el algoritmo BFS y
 #guiandose por cuales operaciones hay que hacer de encendido y apagado, elige los interruptores pertinentes a encender y apagar
 def distanciaMinimaConPasos(grafo,cantidadDeOn,n,estadoInicial):
     #Al principio la distancia a cualquier nodo es "infinita" (n+2 porque es mayor que cualquier distancia posible)
@@ -124,8 +125,8 @@ def distanciaMinimaConPasos(grafo,cantidadDeOn,n,estadoInicial):
         #Mientras el nodo por el que se esta pasando ahora está conectado a otro anterior (es decir, no es el inicial)
         camino.append(anterior[movimiento]) #Se agrega al camino el nodo padre desde el que se vino para llegar al que se esta viendo ahora
         for i in range(0,len(grafo.nodos[movimiento].adyacencia)): 
-            #Buscar en la lista de adyacencia del nodo actual que operacion lleva al nodo anterior
-            if grafo.nodos[movimiento].adyacencia[i][0]==anterior[movimiento]: #Cuando se encuentro
+            #Buscar en la lista de adyacencia del nodo actual qué operación lleva al nodo anterior
+            if grafo.nodos[movimiento].adyacencia[i][0]==anterior[movimiento]: #Cuando se encuentra
                 operaciones=grafo.nodos[movimiento].adyacencia[i][1] #Se guarda
                 break #Se deja de buscar
         movimiento=anterior[movimiento] #El siguiente nodo que se va a ver será el nodo anterior al actual
@@ -133,7 +134,7 @@ def distanciaMinimaConPasos(grafo,cantidadDeOn,n,estadoInicial):
     #Partiendo desde el estado inicial
     estadoActual=estadoInicial
     print('La distancia más corta es: '+str(distancia[0]))
-    #La distancia más corta se encontró con el algoritmo BFS
+    #La distancia más corta al 0 se encontró con el algoritmo BFS
     print('El camino y los pasos son los siguientes: ')
     for i in range(len(camino)-2,-1,-1):
         print('Cantidad de interruptores encendidos: '+str(camino[i+1]))
@@ -175,7 +176,7 @@ for i in range(0,len(estados)): #Se revisan los interruptores
 if k%2==0: #Si k es par
     if cantidadDeOn%2!=0: #Si hay una cantidad impar de interruptores encendidos
         sePuedeApagar=False #Entonces no se puede apagar
-        print("No es posible apagar todos los interruptores, siempre quedará al menos 1")
+        print("No es posible apagar todos los interruptores, siempre quedará al menos 1 encendido")
     if sePuedeApagar: #Si se puede apagar, entonces hay una cantidad par de interruptores encendidos
         grafo=armarGrafo_K_Par(n,k) #Se arma el grafo
 elif k%2!=0: #Si k es impar
