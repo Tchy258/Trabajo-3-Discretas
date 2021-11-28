@@ -48,10 +48,12 @@ def armarGrafo_K_Impar(n,k):
             apagables=k-encendibles
             if cantidadDeOn>=apagables and cantidadDeOn+encendibles<=n:
             #Si es posible realizar esta operacion de prender "encendibles" interruptores y apagar "apagables"
-                grafo.nodos[cantidadDeOn].agregarArista(cantidadDeOn+encendibles-apagables,(encendibles,apagables))
+                operacion=encendibles-apagables
+                vecino=cantidadDeOn+operacion
+                grafo.nodos[cantidadDeOn].agregarArista(vecino,(encendibles,apagables))
                 #Entonces hay una arista desde el nodo que tiene "cantidadDeOn" interruptores encendidos con el nodo que tiene
                 #"cantidadDeOn+encendibles-apagables" interruptores encendidos
-                grafo.nodos[cantidadDeOn+encendibles-apagables].agregarArista(cantidadDeOn,(apagables,encendibles))
+                grafo.nodos[vecino].agregarArista(cantidadDeOn,(apagables,encendibles))
                 #Y viceversa
     return grafo
 
@@ -69,8 +71,10 @@ def armarGrafo_K_Par(n,k):
             #se omite la operacion (2,2) porque es un lazo
             apagables=k-encendibles
             if cantidadDeOn>=apagables and cantidadDeOn+encendibles<=n:
-                grafo.nodos[cantidadDeOn].agregarArista(cantidadDeOn+encendibles-apagables,(encendibles,apagables))
-                grafo.nodos[cantidadDeOn+encendibles-apagables].agregarArista(cantidadDeOn,(apagables,encendibles))
+                operacion=encendibles-apagables
+                vecino=cantidadDeOn+operacion
+                grafo.nodos[cantidadDeOn].agregarArista(vecino,(encendibles,apagables))
+                grafo.nodos[vecino].agregarArista(cantidadDeOn,(apagables,encendibles))
     return grafo
 
 #BFS aplica el algoritmo bfs hasta llegar al nodo con 0 interruptores y registra por cuales nodos se pasó y cuanta es la distancia
