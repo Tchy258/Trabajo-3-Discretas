@@ -44,7 +44,7 @@ def armarGrafo_K_Impar(n,k):
             #y apagar "apagables" interruptores
             #Por ejemplo k=3, permite las siguientes 4 operaciones (3,0) (2,1) (1,2) (0,3)
             apagables=k-encendibles
-            if cantidadDeOn>=apagables and cantidadDeOn<=n-encendibles and cantidadDeOn+encendibles<=n:
+            if cantidadDeOn>=apagables and cantidadDeOn+encendibles<=n:
             #Si es posible realizar esta operacion, de prender "encendibles" interruptores y apagar "apagables"
                 grafo.nodos[cantidadDeOn].agregarArista(cantidadDeOn+encendibles-apagables,(encendibles,apagables))
                 #Entonces hay una arista del nodo que tiene "cantidadDeOn" interruptores encendidos con el nodo que tiene
@@ -58,7 +58,7 @@ def armarGrafo_K_Par(n,k):
     for cantidadDeOn in range(0,n+1,2):
         for encendibles in range(int(k/2)+1,k+1):
             apagables=k-encendibles
-            if cantidadDeOn>=apagables and cantidadDeOn<=encendibles and cantidadDeOn+encendibles<=n:
+            if cantidadDeOn>=apagables and cantidadDeOn+encendibles<=n:
                 grafo.nodos[cantidadDeOn].agregarArista(cantidadDeOn+encendibles-apagables,(encendibles,apagables))
                 grafo.nodos[cantidadDeOn+encendibles-apagables].agregarArista(cantidadDeOn,(apagables,encendibles))
     return grafo
@@ -165,7 +165,7 @@ if k%2==0: #Si k es par
     if cantidadDeOn%2!=0: #Si hay una cantidad impar de interruptores encendidos
         sePuedeApagar=False #Entonces no se puede apagar
         print("No es posible apagar todos los interruptores, siempre quedará al menos 1")
-    if sePuedeApagar: #Si se puede apagar, entonces hay una cantidad de par de interruptores encendidos
+    if sePuedeApagar: #Si se puede apagar, entonces hay una cantidad par de interruptores encendidos
         grafo=armarGrafo_K_Par(n,k) #Y se arma el grafo
 elif k%2!=0: #Si k impar
     grafo=armarGrafo_K_Impar(n,k) #Se arma su grafo
